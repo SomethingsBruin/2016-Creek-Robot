@@ -70,8 +70,7 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-    	_chassis.drive(_driver.getAxis(RobotMap.LEFT_Y));
-    	_chassis.turn(_driver.getAxis(RobotMap.LEFT_X));
+    	_chassis.drive(_driver.getAxis(RobotMap.LEFT_Y), _driver.getAxis(RobotMap.LEFT_X) );
     }
     
     /**

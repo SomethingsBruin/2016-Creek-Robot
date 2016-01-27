@@ -1,7 +1,9 @@
 package Chassis;
 
 import CCTalon.CCTalon;
+
 import org.usfirst.frc.team4550.robot.RobotMap;
+import org.usfirst.frc.team4550.robot.Utilities;
 
 public class Chassis
 {
@@ -27,10 +29,10 @@ public class Chassis
 		return _instance;
 	}
 	
-	public void drive(double speed)
+	public void drive(double ySpeed, double xSpeed)
 	{
-		_leftTalon.set(speed);
-		_rightTalon.set(speed);
+		_leftTalon.set( Utilities.normalize( ySpeed + xSpeed, -1.0, 0, 1.0 ) );
+		_rightTalon.set( Utilities.normalize( ySpeed - xSpeed, -1.0, 0, 1.0 ) );
 	}
 	
 	public void turn(double speed)

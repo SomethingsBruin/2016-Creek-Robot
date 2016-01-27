@@ -2,10 +2,6 @@ package org.usfirst.frc.team4550.robot;
 
 public  class RobotMap {
 
-	
-	
-	
-	
 	public static final int A_BUTTON = 1;
 	public static final int B_BUTTON = 2;
 	public static final int X_BUTTON = 3;
@@ -33,5 +29,12 @@ public  class RobotMap {
 	public static final boolean LEFT_TALON_REVERSE = false;
 	public static final boolean RIGHT_TALON_REVERSE = false;
 	
+	public static final int ARM_PORT = -1;
+	public static final int LEFT_SHOOTER_PORT = -1;
+	public static final int RIGHT_SHOOTER_PORT = -1;
+	public static final int BACK_SHOOTER_PORT = -1;
 	
+	public static final boolean LEFT_SHOOTER_REVERSE = false;
+	public static final boolean RIGHT_SHOOTER_REVERSE = false;
+	public static final boolean BACK_SHOOTER_REVERSE = false;
 }
