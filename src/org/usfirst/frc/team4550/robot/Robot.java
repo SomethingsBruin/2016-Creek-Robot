@@ -1,6 +1,8 @@
 
 package org.usfirst.frc.team4550.robot;
 
+import mechanism.Arm;
+import mechanism.Shooter;
 import Chassis.Chassis;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Timer;
@@ -22,7 +24,11 @@ public class Robot extends IterativeRobot {
 	private Driver _driver;
 	
 	private Chassis _chassis;
-    
+    private Arm _arm;
+	private Shooter _shooter;
+	
+	private boolean _testRun;
+	
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
@@ -34,6 +40,9 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putData("Auto choices", chooser);
         _driver = Driver.getInstance();
         _chassis = Chassis.getChassis();
+        _arm = Arm.getArm();
+        _shooter = Shooter.getInstance();
+        _testRun = false;
     }
     
 	/**
@@ -70,14 +79,66 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-    	_chassis.drive(_driver.getAxis(RobotMap.LEFT_Y), _driver.getAxis(RobotMap.LEFT_X) );
+    	
+    	_chassis.drive( Utilities.exp( Utilities.fixInput( _driver.getAxis(RobotMap.LEFT_Y) ), 5 ), Utilities.exp( Utilities.fixInput( _driver.getAxis(RobotMap.LEFT_X) ), 5 ) );
+    	//_chassis.drive(Utilities.exp(_driver.getAxis(RobotMap.LEFT_Y), 3), Utilities.exp(_driver.getAxis(RobotMap.LEFT_X),3) );
+    	
+    	//Right trigger to move up 
+    	if( _driver.getAxis(RobotMap.RIGHT_2) > 0 )
+    	{
+    		_arm.move( Utilities.exp(-1.0 * _driver.getAxis(RobotMap.RIGHT_2), 5));
+    	}
+    	//Left trigger to move down
+    	else if( _driver.getAxis(RobotMap.LEFT_2) > 0 )
+    	{
+    		_arm.move(Utilities.exp(_driver.getAxis(RobotMap.LEFT_2),3));
+    	}
+    	
+    	//Press "A" to shoot
+    	if( _driver.getButton(RobotMap.A_BUTTON))
+    	{
+    		_shooter.outtake( 1.0 );
+    	} 
+    	//Intake if L1 Pressed 
+    	else if( _driver.getButton(RobotMap.LB_BUTTON ) )
+    	{
+    		_shooter.intake(.4);
+    	}
+    	else
+    	{
+    		_shooter.stop();
+    	}
+    }
+    
+    /**
+     * This function is called once before test is initialized 
+     */
+    public void testInit()
+    {
+    	_chassis.reset();
+    	_testRun = false;
     }
     
     /**
      * This function is called periodically during test mode
      */
-    public void testPeriodic() {
-    
+    public void testPeriodic()
+    {
+    	System.out.println( _chassis.getAngle() );
+    	Timer.delay(.5);
+    	/*if( !_testRun )
+    	{
+    		_chassis.move( 82, -.55 );
+    		_testRun = true;
+    	}*/
+    	/*if( !_testRun )
+    	{
+    		_chassis.drive( -.55, 0 );
+    		Timer.delay(2);
+    		_chassis.stop();
+    		_testRun = true;
+    	}
+    	System.out.println( "LEFT: " + _chassis.getLeftEncoder() + " RIGHT: " + _chassis.getRightEncoder() );*/
     }
     
 }

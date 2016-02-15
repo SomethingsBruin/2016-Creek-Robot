@@ -9,7 +9,8 @@ public class Driver {
 	private static Driver _instance; 
 	
 	
-	private Driver(){
+	private Driver()
+	{
 		_joystick = new Joystick(0);
 	}
 	

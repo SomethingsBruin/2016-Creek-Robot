@@ -11,7 +11,7 @@ public class CCTalon extends Talon
 		_reverse = reverse;
 	}
 	
-	public void set(int speed) {
+	public void set(double speed) {
 		if (_reverse) 
 		{
 			super.set(-speed);
