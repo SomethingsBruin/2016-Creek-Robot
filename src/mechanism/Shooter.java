@@ -19,7 +19,7 @@ public class Shooter
 	{
 		_shooterWheel = new CCTalon( RobotMap.SHOOTER_PORT, RobotMap.SHOOTER_REVERSE );
 		_backWheel = new CCTalon( RobotMap.BACK_SHOOTER_PORT, RobotMap.BACK_SHOOTER_REVERSE );
-//		_limitSwitch = new DigitalInput(RobotMap.SHOOTER_LIMIT_PORT);
+		_limitSwitch = new DigitalInput(RobotMap.SHOOTER_LIMIT_PORT);
 	}
 	
 	//Getter adjusted for singleton
@@ -47,9 +47,14 @@ public class Shooter
 	public void outtake( double speed )
 	{
 		_shooterWheel.set( Utilities.normalize(speed, -1 , 0 , 1) );
-		Timer.delay( 0.75 );
-		_backWheel.set( 1.0);
 		Timer.delay( 1.0 );
+		_backWheel.set( 1.0);
+		Timer.delay( .20 );
+		while( _limitSwitch.get( ) )
+		{
+			;;//DO Nothing
+		}
+		Timer.delay( .1 );
 		stop();
 	}
 	/**

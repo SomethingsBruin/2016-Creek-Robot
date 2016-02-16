@@ -4,6 +4,7 @@ import org.usfirst.frc.team4550.robot.RobotMap;
 import org.usfirst.frc.team4550.robot.Utilities;
 
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.interfaces.Potentiometer;
 import CCTalon.CCTalon;
 
@@ -14,13 +15,18 @@ public class Arm
 	private static Arm _instance;
 	private AnalogPotentiometer _potentiometer;
 	
+	private DigitalInput _lowerSwitch;
+	private DigitalInput _upperSwitch;
+	
 	/**
 	 * Creates our arm talon
 	 */
 	private Arm() 
 	{
 		_arm = new CCTalon ( RobotMap.ARM_PORT, false );
-		//_potentiometer = new AnalogPotentiometer(RobotMap.POTENTIOMETER_PORT);
+		_potentiometer = new AnalogPotentiometer(RobotMap.POTENTIOMETER_PORT);
+		_lowerSwitch = new DigitalInput( RobotMap.LOWER_ARM_LIMIT_PORT );
+		_upperSwitch = new DigitalInput( RobotMap.UPPER_ARM_LIMIT_PORT );
 	}
 	
 	/**
@@ -44,7 +50,14 @@ public class Arm
 	 */
 	public void move( double speed )
 	{
-		_arm.set( Utilities.normalize( speed, -.5, 0, .5 ) );
+		System.out.println( _potentiometer.get() );
+		if( ( speed < 0 && !_upperSwitch.get() ) || ( speed > 0 && !_lowerSwitch.get() ) )
+		{
+			this.stop();
+			return;
+		}
+		_arm.set( Utilities.normalize( speed, -.75, 0, .5 ) );
+		
 	}
 	
 	/**
@@ -52,7 +65,7 @@ public class Arm
 	 */
 	public void stop()
 	{
-		_arm.set(0.05);
+		_arm.set(-0.15);
 	}
 	
 	/**
@@ -74,5 +87,15 @@ public class Arm
 		{
 			stop();
 		}
+	}
+	
+	public boolean getUpperSwitch( )
+	{
+		return _upperSwitch.get();
+	}
+	
+	public boolean getLowerSwitch( )
+	{
+		return _lowerSwitch.get();
 	}
 }

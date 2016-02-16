@@ -84,14 +84,18 @@ public class Robot extends IterativeRobot {
     	//_chassis.drive(Utilities.exp(_driver.getAxis(RobotMap.LEFT_Y), 3), Utilities.exp(_driver.getAxis(RobotMap.LEFT_X),3) );
     	
     	//Right trigger to move up 
-    	if( _driver.getAxis(RobotMap.RIGHT_2) > 0 )
+    	if( _driver.getAxis(RobotMap.RIGHT_2) > .15 )
     	{
     		_arm.move( Utilities.exp(-1.0 * _driver.getAxis(RobotMap.RIGHT_2), 5));
     	}
     	//Left trigger to move down
-    	else if( _driver.getAxis(RobotMap.LEFT_2) > 0 )
+    	else if( _driver.getAxis(RobotMap.LEFT_2) > .15 )
     	{
     		_arm.move(Utilities.exp(_driver.getAxis(RobotMap.LEFT_2),3));
+    	}
+    	else
+    	{
+    		_arm.stop();
     	}
     	
     	//Press "A" to shoot
@@ -124,8 +128,22 @@ public class Robot extends IterativeRobot {
      */
     public void testPeriodic()
     {
-    	System.out.println( _chassis.getAngle() );
-    	Timer.delay(.5);
+    	if( !_testRun )
+    	{
+    		_chassis.turnToAngle(90, .5);
+    		Timer.delay(.5);
+    		_chassis.move( 156 , -.5);
+    		Timer.delay(.5);
+    		_chassis.reset();
+    		_chassis.turnToAngle(-90, .5);
+    		Timer.delay(.5);
+    		_chassis.move(24, -.5);
+    		_testRun = true;
+    		
+    	}
+    	//System.out.println( _chassis.getAngle() );
+    	//System.out.println( _arm.getLowerSwitch() + " " + _arm.getUpperSwitch() );
+    	//Timer.delay(.5);
     	/*if( !_testRun )
     	{
     		_chassis.move( 82, -.55 );

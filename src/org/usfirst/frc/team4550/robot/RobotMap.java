@@ -29,14 +29,16 @@ public  class RobotMap {
 	public static final boolean LEFT_TALON_REVERSE = true;
 	public static final boolean RIGHT_TALON_REVERSE = false;
 	
-	public static final int ARM_PORT = 6;
+	public static final int ARM_PORT = 0;
 	public static final int SHOOTER_PORT = 7;
 	public static final int BACK_SHOOTER_PORT = 8;
 	
 	public static final boolean SHOOTER_REVERSE = false;
 	public static final boolean BACK_SHOOTER_REVERSE = true;
 	
-	public static final int SHOOTER_LIMIT_PORT = -1;
+	public static final int SHOOTER_LIMIT_PORT = 6;
+	public static final int LOWER_ARM_LIMIT_PORT = 4;
+	public static final int UPPER_ARM_LIMIT_PORT = 7;
 	
 	public static final int GYRO_PORT = 1;
 	

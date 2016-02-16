@@ -64,6 +64,7 @@ public class Chassis
 	 */
 	public void turn(double speed)
 	{
+		//System.out.println( speed );
 		_leftTalon.set(speed);
 		_rightTalon.set(-speed);
 	}
@@ -108,5 +109,56 @@ public class Chassis
 		_gyro.reset();
 		_encoderLeft.reset();
 		_encoderRight.reset();
+	}
+	
+	public void turnToAngle( double angle, double speed )
+	{
+		 boolean done = false;
+	        
+	        //Default speed is at 0.7
+	        long maxTime = 4000;//4 seconds
+	        double time = 0.0;
+	        
+	        //PID constants
+	        double Kp = 2.50;
+	        double Ki = 0.035;
+	        double Kd = 0.015;
+	        
+	        //PID variables
+	        double moveSpeed = speed;
+	        double error = 0.0;
+	        double prevError = 0.0;
+	        double errorSum = 0.0;
+	        
+	        _gyro.reset();
+	        
+	        time = System.currentTimeMillis();
+
+	        //PID loop
+	        while ( !done )
+	        {                    
+	            prevError = error;
+	            System.out.println( "Angle: " + angle + " GYRO: " + _gyro.getAngle() );
+	            error = ( angle - _gyro.getAngle() ) / 100.0;
+	            errorSum += error;
+	            errorSum = Utilities.normalize( errorSum, -5, 0, 5 );
+	            
+	            //System.out.println( "error: " + error + " errorSum: " + errorSum );
+	            
+	            double p = error * Kp;
+	            double i = errorSum * Ki;
+	            double d = (error - prevError) * Kd;       
+
+	            this.turn( Utilities.normalize(-1*(p + i + d), -moveSpeed, 0, moveSpeed ) ); 
+
+	            if ( (Math.abs( errorSum ) < 0.01) || (System.currentTimeMillis() > time+maxTime) )
+	            {
+	                done = true;
+	            }
+	        }
+	        
+	        this.stop(); 
+	        done = false;
+	        _gyro.reset();
 	}
 }
