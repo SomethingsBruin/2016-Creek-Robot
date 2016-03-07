@@ -26,14 +26,12 @@ public class Driver {
 		{
 			System.out.print(i+ ". "+_joystick.getRawAxis(i) + "  ");
 		}
-		System.out.print( "6. " + _joystick.getRawAxis(6));
 		System.out.println();
-		for(int i = 1; i <= _joystick.getButtonCount(); i++)
+		/*for(int i = 1; i <= _joystick.getButtonCount(); i++)
 		{
 			System.out.print(i + ". " + _joystick.getRawButton(i) + "  ");
-		}
-		System.out.println();
-		Timer.delay(1);
+		}*/
+		Timer.delay(.5);
 	}
 	
 	public double getAxis(int axisNumber)

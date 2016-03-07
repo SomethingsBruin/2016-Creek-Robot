@@ -36,18 +36,18 @@ public class Utilities {
 	
 	public static double fixInput( double value )
 	{
-		if( Math.abs(value) < .15 )
+		if( Math.abs(value) < .03 )
 		{
 			return 0;
 		}
-		if( value > .15 )
+		/*if( value > .15 )
 		{
 			value -= .15;
 		}
 		else if( value < -.15 )
 		{
 			value += .15;
-		}
+		}*/
 		return value;
 	}
 	

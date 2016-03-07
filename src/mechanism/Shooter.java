@@ -2,9 +2,7 @@ package mechanism;
 
 import org.usfirst.frc.team4550.robot.RobotMap;
 import org.usfirst.frc.team4550.robot.Utilities;
-
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.Timer;
 import CCTalon.CCTalon;
 
@@ -54,7 +52,7 @@ public class Shooter
 		{
 			;;//DO Nothing
 		}
-		Timer.delay( .1 );
+		Timer.delay( .15 );//.265 for real
 		stop();
 	}
 	/**

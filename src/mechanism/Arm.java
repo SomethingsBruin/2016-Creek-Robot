@@ -50,14 +50,21 @@ public class Arm
 	 */
 	public void move( double speed )
 	{
-		System.out.println( _potentiometer.get() );
+		//System.out.println( _potentiometer.get() );
 		if( ( speed < 0 && !_upperSwitch.get() ) || ( speed > 0 && !_lowerSwitch.get() ) )
 		{
 			this.stop();
 			return;
 		}
-		_arm.set( Utilities.normalize( speed, -.75, 0, .5 ) );
-		
+		if( speed > .75 )
+		{
+			speed = .75;
+		}
+		else if( speed < -.90 )
+		{
+			speed = -.90;
+		}
+		_arm.set(speed);
 	}
 	
 	/**
@@ -65,7 +72,7 @@ public class Arm
 	 */
 	public void stop()
 	{
-		_arm.set(-0.15);
+		_arm.set(0.00);
 	}
 	
 	/**
@@ -97,5 +104,10 @@ public class Arm
 	public boolean getLowerSwitch( )
 	{
 		return _lowerSwitch.get();
+	}
+	
+	public double getPotentiometre( )
+	{
+		return _potentiometer.get();
 	}
 }
