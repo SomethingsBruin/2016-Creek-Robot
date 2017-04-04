@@ -1,11 +1,10 @@
 package mechanism;
 
 import org.usfirst.frc.team4550.robot.RobotMap;
-import org.usfirst.frc.team4550.robot.Utilities;
+
 
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.interfaces.Potentiometer;
 import CCTalon.CCTalon;
 
 

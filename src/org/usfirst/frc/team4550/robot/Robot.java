@@ -1,18 +1,9 @@
 
 package org.usfirst.frc.team4550.robot;
 
-import com.ni.vision.NIVision;
-import com.ni.vision.NIVision.DrawMode;
-import com.ni.vision.NIVision.Image;
-import com.ni.vision.NIVision.Point;
-import com.ni.vision.NIVision.Rect;
-import com.ni.vision.NIVision.RotatedRect;
-import com.ni.vision.NIVision.ShapeMode;
-
 import mechanism.Arm;
 import mechanism.Shooter;
 import Chassis.Chassis;
-import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -30,28 +21,24 @@ public class Robot extends IterativeRobot {
 	final String customAuto = "My Auto";
 	private int autoSelected;
 	private int defenseSelected;
-	private SendableChooser _chooser;
-	private SendableChooser _chooser2;
+	private SendableChooser<Integer> _chooser;
+	private SendableChooser<Integer> _chooser2;
 	private Driver _driver;
 
 	private Chassis _chassis;
 	private Arm _arm;
 	private Shooter _shooter;
 
-	private boolean _testRun;
 	private boolean _autonomous;
 
-	private int _session;
-    private Image _frame;
-	
-    Rect _rect;
+
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
 	 */
 	public void robotInit() {
-		_chooser = new SendableChooser();
-		_chooser2 = new SendableChooser();
+		_chooser = new SendableChooser<Integer>();
+		_chooser2 = new SendableChooser<Integer>();
 
 		_chooser.addObject( "Far Left", 0 );
 		_chooser.addObject( "Left", 1 );
@@ -74,17 +61,8 @@ public class Robot extends IterativeRobot {
 		_chassis = Chassis.getChassis();
 		_arm = Arm.getArm();
 		_shooter = Shooter.getInstance();
-		_testRun = false;
 		_autonomous = false;
-		
-		_frame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
-		_session = NIVision.IMAQdxOpenCamera( "cam3" , NIVision.IMAQdxCameraControlMode.CameraControlModeController);
-        NIVision.IMAQdxConfigureGrab(_session);
-	
-        NIVision.IMAQdxStartAcquisition( _session);
 
-        
-        _rect = new NIVision.Rect(10, 10, 100, 100); 
         
 	}
 
@@ -145,11 +123,6 @@ public class Robot extends IterativeRobot {
 	 */
 	public void teleopPeriodic()
 	{
-		NIVision.IMAQdxGrab(_session, _frame, 1);
-		//NIVision.imaqDrawShapeOnImage(_frame, _frame, _rect, DrawMode.DRAW_VALUE, ShapeMode.SHAPE_OVAL, 100.0f);
-		NIVision.imaqDrawLineOnImage(_frame, _frame, DrawMode.DRAW_VALUE, new Point(325, 415), new Point(375, 416) , 100.0f);
-		NIVision.imaqDrawLineOnImage(_frame, _frame, DrawMode.DRAW_VALUE, new Point(335, 435), new Point(336, 386) , 100.0f);
-		CameraServer.getInstance().setImage(_frame);
 		
 		_chassis.drive( Utilities.exp( Utilities.fixInput( _driver.getAxis(RobotMap.LEFT_Y) ), 5 ), Utilities.exp( Utilities.fixInput( _driver.getAxis(RobotMap.LEFT_X) ), 5 ) );
 		//_chassis.drive(Utilities.exp(_driver.getAxis(RobotMap.LEFT_Y), 3), Utilities.exp(_driver.getAxis(RobotMap.LEFT_X),3) );
@@ -203,7 +176,6 @@ public class Robot extends IterativeRobot {
 	public void testInit()
 	{
 		_chassis.reset();
-		_testRun = false;
 	}
 
 	/**
